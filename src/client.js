@@ -82,6 +82,10 @@ class Client {
     this.write(`rpoplpush ${src} ${dest}`, callback);
   }
 
+  brpop(key,timeout, callback) {
+    this.write(`brpop ${key} ${timeout}`, callback);
+  }
+
   hset(key, field, value, callback) {
     this.write(`hset ${key} ${field} ${value}`, callback);
   }

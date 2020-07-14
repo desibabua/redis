@@ -11,9 +11,9 @@ const main = function () {
   // client.lpop('numbers', client.print);
   // client.lrange('numbers', '0', '10', client.print);
 
-  // client.lpush('numbers', 2, client.print);
-  // client.lpush('numbers', 1, client.print);
-  // client.rpush('numbers', 3, client.print);
+  client.lpush('numbers', 2, client.print);
+  client.lpush('numbers', 1, client.print);
+  client.rpush('numbers', 3, client.print);
   // client.rpush('numbers', 4, client.print);
   // client.lrange('numbers', '0', '10', client.print);
 
@@ -39,17 +39,21 @@ const main = function () {
   // client.hget('animals', 'pet', client.print);
   // client.hget('animals', 'wild', client.print);
 
-  const animals = ['pet', 'dog', 'wild', 'tiger', 'reptiles', 'lizard'];
-  client.hmset('animals', animals, client.print);
-  client.hmget('animals', ['pet','wild','reptiles'], client.print);
+  // const animals = ['pet', 'dog', 'wild', 'tiger', 'reptiles', 'lizard'];
+  // client.hmset('animals', animals, client.print);
+  // client.hmget('animals', ['pet','wild','reptiles'], client.print);
 
-  client.hgetall('animals', client.print);
-  client.del('animals', client.print);
-  client.hgetall('animals', client.print);
+  // client.hgetall('animals', client.print);
+  // client.del('animals', client.print);
+  // client.hgetall('animals', client.print);
+
+  // client.keys('*', client.print);
+  // client.brpop('numbers', 10, client.print);
+  // client.brpop('numbers', 10, client.print);
+  // client.brpop('numbers', 10, client.print);
+  // client.brpop('numbers', 10, client.print);
 
   client.flushdb(client.print);
-  client.keys('*', client.print);
-
   client.end();
 };
 
