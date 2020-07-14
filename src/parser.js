@@ -2,6 +2,7 @@ const types = {
   '+': (str) => str,
   ':': (str) => Number(str),
   '*': (str) => new Array(Number(str)),
+  '-': (str) => `(error) ${str}`
 };
 
 const split = (str) => str.split('\r\n');
