@@ -54,7 +54,7 @@ const main = function () {
   // client.brpop('numbers', 10, client.print);
 
   client.flushdb(client.print);
-  client.end();
+  client.end((err, res) => console.log(`connection closed...with${err || res}`));
 };
 
 main();

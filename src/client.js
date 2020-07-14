@@ -34,8 +34,8 @@ class Client {
     this.write(`select ${db}`, callback);
   }
 
-  ping(value = '') {
-    this.write(`ping ${value}`, this.print);
+  ping(value = '',callback = this.print) {
+    this.write(`ping ${value}`, callback);
   }
 
   set(key, value, callback) {
@@ -118,11 +118,9 @@ class Client {
     err ? console.error(err) : console.log(res);
   }
 
-  end() {
+  end(callback) {
     if (this.callbacks.length) return setTimeout(this.end.bind(this), 50);
-    this.socket.end(() => {
-      console.log('connection closed...');
-    });
+    this.socket.end(callback);
   }
 }
 
