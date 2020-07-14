@@ -19,112 +19,89 @@ class Client {
     return client;
   }
 
-  select(db, callback = console.log) {
-    this.socket.write(`select ${db}\r\n`, (err) => {
+  write(command) {
+    this.socket.write(`${command}\r\n`, (err) => {
       err && console.log(err);
     });
+  }
+
+  select(db, callback = console.log) {
+    this.write(`select ${db}`);
     this.callbacks.push(callback);
   }
 
   ping(value = '') {
-    this.socket.write(`ping ${value}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`ping ${value}`);
     this.callbacks.push(console.log);
   }
 
   set(key, value, callback) {
-    this.socket.write(`set ${key} ${value}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`set ${key} ${value}`);
     this.callbacks.push(callback);
   }
 
   get(key, callback) {
-    this.socket.write(`get ${key}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`get ${key}`);
     this.callbacks.push(callback);
   }
 
   keys(pattern, callback) {
-    this.socket.write(`keys ${pattern}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`keys ${pattern}`);
     this.callbacks.push(callback);
   }
 
   incr(key, callback) {
-    this.socket.write(`incr ${key}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`incr ${key}`);
     this.callbacks.push(callback);
   }
 
   lpush(key, value, callback) {
-    this.socket.write(`lpush ${key} ${value}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`lpush ${key} ${value}`);
     this.callbacks.push(callback);
   }
 
   lpop(key, callback) {
-    this.socket.write(`lpop ${key}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`lpop ${key}`);
     this.callbacks.push(callback);
   }
 
   lrange(key, start, end, callback) {
-    this.socket.write(`lrange ${key} ${start} ${end}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`lrange ${key} ${start} ${end}`);
     this.callbacks.push(callback);
   }
 
   rpush(key, value, callback) {
-    this.socket.write(`rpush ${key} ${value}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`rpush ${key} ${value}`);
     this.callbacks.push(callback);
   }
 
   rpop(key, callback) {
-    this.socket.write(`rpop ${key}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`rpop ${key}`);
     this.callbacks.push(callback);
   }
 
   rpoplpush(src, dest, callback) {
-    this.socket.write(`rpoplpush ${src} ${dest}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`rpoplpush ${src} ${dest}`);
     this.callbacks.push(callback);
   }
 
   hset(key, field, value, callback) {
-    this.socket.write(`hset ${key} ${field} ${value}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`hset ${key} ${field} ${value}`);
     this.callbacks.push(callback);
   }
 
   hget(key, field, callback) {
-    this.socket.write(`hget ${key} ${field}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`hget ${key} ${field}`);
     this.callbacks.push(callback);
   }
 
   hgetall(key, callback) {
-    this.socket.write(`hgetall ${key}\r\n`, (err) => {
-      err && console.log(err);
-    });
+    this.write(`hgetall ${key}`);
     this.callbacks.push(callback);
   }
 
   end() {
+    if (this.callbacks.length) return setTimeout(this.end.bind(this), 50);
     this.socket.end(() => {
       console.log('connection closed...');
     });

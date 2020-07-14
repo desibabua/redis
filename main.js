@@ -32,12 +32,12 @@ const main = function () {
 
   // client.keys('*num*', console.log);
 
-  client.hset('animals', 'pet', 'dog', console.log);
-  client.hset('animals', 'wild', 'tiger', console.log);
-  client.hset('animals', 'reptiles', 'lizard', console.log);
+  // client.hset('animals', 'pet', 'dog', console.log);
+  // client.hset('animals', 'wild', 'tiger', console.log);
+  // client.hset('animals', 'reptiles', 'lizard', console.log);
 
-  client.hget('animals', 'pet', console.log);
-  client.hget('animals', 'wild', console.log);
+  // client.hget('animals', 'pet', console.log);
+  // client.hget('animals', 'wild', console.log);
 
   client.hgetall('animals', console.log);
 
