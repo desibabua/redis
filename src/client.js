@@ -47,6 +47,13 @@ class Client {
     this.callbacks.push(callback);
   }
 
+  keys(pattern, callback) {
+    this.socket.write(`keys ${pattern}\r\n`, (err) => {
+      err && console.log(err);
+    });
+    this.callbacks.push(callback);
+  }
+
   incr(key, callback) {
     this.socket.write(`incr ${key}\r\n`, (err) => {
       err && console.log(err);
@@ -91,6 +98,27 @@ class Client {
 
   rpoplpush(src, dest, callback) {
     this.socket.write(`rpoplpush ${src} ${dest}\r\n`, (err) => {
+      err && console.log(err);
+    });
+    this.callbacks.push(callback);
+  }
+
+  hset(key, field, value, callback) {
+    this.socket.write(`hset ${key} ${field} ${value}\r\n`, (err) => {
+      err && console.log(err);
+    });
+    this.callbacks.push(callback);
+  }
+
+  hget(key, field, callback) {
+    this.socket.write(`hget ${key} ${field}\r\n`, (err) => {
+      err && console.log(err);
+    });
+    this.callbacks.push(callback);
+  }
+
+  hgetall(key, callback) {
+    this.socket.write(`hgetall ${key}\r\n`, (err) => {
       err && console.log(err);
     });
     this.callbacks.push(callback);
