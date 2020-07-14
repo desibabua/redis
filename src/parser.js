@@ -1,9 +1,8 @@
-const types = {
-  '+': (str) => str,
-  ':': (str) => Number(str),
-  '*': (str) => new Array(Number(str)),
-  '-': (str) => `(error) ${str}`
-};
+// const types = {
+//   '+': (str) => str,
+//   ':': (str) => Number(str),
+//   '*': (str) => new Array(Number(str)),
+// };
 
 const split = (str) => str.split('\r\n');
 
@@ -34,16 +33,23 @@ const formatRes = function (resArr) {
   const first = resArr.shift();
   const [type, value] = [first[0], first.slice(1)];
 
+  if (type == '-') return `(error) ${value}`;
   if (type == '$') return resArr.shift();
-  if (type != '*') return types[type](value);
-
-  const array = types[type](value);
-  for (let index = 0; index < array.length; index++) {
-    array[index] = formatRes(resArr);
+  if (type == '+') return value;
+  if (type == ':') return Number(value);
+  if (type == '*') {
+    const array = new Array(Number(value));
+    for (let index = 0; index < array.length; index++) {
+      array[index] = formatRes(resArr);
+    }
+    return array;
   }
-  return array;
 };
 
-const parser = (res) => parseRes(res).map((e) => formatRes(split(e)));
+const parser = (res) =>
+  parseRes(res).map((e) => {
+    if (split(e)[0][0] == '-') return { err: formatRes(split(e)), res: null };
+    return { err: null, res: formatRes(split(e)) };
+  });
 
 module.exports = { parser };

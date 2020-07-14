@@ -4,42 +4,42 @@ const main = function () {
   const client = redis.createClient({ db: 1 });
   client.ping();
 
-  // client.lpush('numbers', 1, console.log);
-  // client.lpush('numbers', 2, console.log);
-  // client.lpush('numbers', 3, console.log);
-  // client.lrange('numbers', '0', '10', console.log);
-  // client.lpop('numbers', console.log);
-  // client.lrange('numbers', '0', '10', console.log);
+  // client.lpush('numbers', 1, client.print);
+  // client.lpush('numbers', 2, client.print);
+  // client.lpush('numbers', 3, client.print);
+  // client.lrange('numbers', '0', '10', client.print);
+  // client.lpop('numbers', client.print);
+  // client.lrange('numbers', '0', '10', client.print);
 
-  // client.lpush('numbers', 2, console.log);
-  // client.lpush('numbers', 1, console.log);
-  // client.rpush('numbers', 3, console.log);
-  // client.rpush('numbers', 4, console.log);
-  // client.lrange('numbers', '0', '10', console.log);
+  // client.lpush('numbers', 2, client.print);
+  // client.lpush('numbers', 1, client.print);
+  // client.rpush('numbers', 3, client.print);
+  // client.rpush('numbers', 4, client.print);
+  // client.lrange('numbers', '0', '10', client.print);
 
-  // client.rpoplpush('numbers', 'one', console.log);
-  // client.lrange('numbers', '0', '10', console.log);
-  // client.lrange('one', '0', '10', console.log);
+  // client.rpoplpush('numbers', 'one', client.print);
+  // client.lrange('numbers', '0', '10', client.print);
+  // client.lrange('one', '0', '10', client.print);
 
-  // client.rpop('numbers', console.log);
-  // client.lrange('numbers', '0', '10', console.log);
+  // client.rpop('numbers', client.print);
+  // client.lrange('numbers', '0', '10', client.print);
 
   // client.ping('new hello');
-  // client.set('hello', 'world', console.log);
-  // client.get('hello', console.log);
-  // client.incr('a', console.log);
-  // client.incr('b', console.log);
+  // client.set('hello', 'world', client.print);
+  // client.get('hello', client.print);
+  // client.incr('a', client.print);
+  // client.incr('b', client.print);
 
-  // client.keys('*num*', console.log);
+  // client.keys('*num*', client.print);
 
-  // client.hset('animals', 'pet', 'dog', console.log);
-  // client.hset('animals', 'wild', 'tiger', console.log);
-  // client.hset('animals', 'reptiles', 'lizard', console.log);
+  // client.hset('animals', 'pet', 'dog', client.print);
+  // client.hset('animals', 'wild', 'tiger', client.print);
+  // client.hset('animals', 'reptiles', 'lizard', client.print);
 
-  // client.hget('animals', 'pet', console.log);
-  // client.hget('animals', 'wild', console.log);
+  // client.hget('animals', 'pet', client.print);
+  // client.hget('animals', 'wild', client.print);
 
-  client.hgetall('animals', console.log);
+  client.hgetall('animals', client.print);
 
   client.end();
 };

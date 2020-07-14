@@ -11,9 +11,9 @@ class Client {
     client.select(db, () => {});
     client.socket.on('data', (data) => {
       const parsedData = parser(data);
-      parsedData.forEach((res) => {
+      parsedData.forEach(({ err, res }) => {
         const callback = client.callbacks.shift();
-        callback(res);
+        callback(err, res);
       });
     });
     return client;
@@ -32,7 +32,7 @@ class Client {
 
   ping(value = '') {
     this.write(`ping ${value}`);
-    this.callbacks.push(console.log);
+    this.callbacks.push(this.print);
   }
 
   set(key, value, callback) {
@@ -98,6 +98,10 @@ class Client {
   hgetall(key, callback) {
     this.write(`hgetall ${key}`);
     this.callbacks.push(callback);
+  }
+
+  print(err, res) {
+    err ? console.error(err): console.log(res);
   }
 
   end() {
