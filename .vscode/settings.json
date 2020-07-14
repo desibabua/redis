@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
+    "flushall",
+    "flushdb",
     "hget",
     "hgetall",
     "hmget",

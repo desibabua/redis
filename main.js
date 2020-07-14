@@ -47,6 +47,9 @@ const main = function () {
   client.del('animals', client.print);
   client.hgetall('animals', client.print);
 
+  client.flushdb(client.print);
+  client.keys('*', client.print);
+
   client.end();
 };
 

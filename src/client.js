@@ -102,6 +102,14 @@ class Client {
     this.write(`hmget ${key} ${fields.join(' ')}`, callback);
   }
 
+  flushall(callback) {
+    this.write(`flushall`, callback);
+  }
+
+  flushdb(callback) {
+    this.write(`flushdb`, callback);
+  }
+
   print(err, res) {
     err ? console.error(err) : console.log(res);
   }
