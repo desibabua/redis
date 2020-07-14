@@ -39,6 +39,12 @@ const main = function () {
   // client.hget('animals', 'pet', client.print);
   // client.hget('animals', 'wild', client.print);
 
+  const animals = ['pet', 'dog', 'wild', 'tiger', 'reptiles', 'lizard'];
+  client.hmset('animals', animals, client.print);
+  client.hmget('animals', ['pet','wild','reptiles'], client.print);
+
+  client.hgetall('animals', client.print);
+  client.del('animals', client.print);
   client.hgetall('animals', client.print);
 
   client.end();

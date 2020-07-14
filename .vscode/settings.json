@@ -2,6 +2,8 @@
   "cSpell.words": [
     "hget",
     "hgetall",
+    "hmget",
+    "hmset",
     "hset",
     "lpop",
     "lpush",
