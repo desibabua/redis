@@ -1,9 +1,3 @@
-// const types = {
-//   '+': (str) => str,
-//   ':': (str) => Number(str),
-//   '*': (str) => new Array(Number(str)),
-// };
-
 const split = (str) => str.split('\r\n');
 
 const getExtraCount = function (str) {
@@ -46,10 +40,19 @@ const formatRes = function (resArr) {
   }
 };
 
-const parser = (res) =>
-  parseRes(res).map((e) => {
+const parser = function (res) {
+  return parseRes(res).map((e) => {
     if (split(e)[0][0] == '-') return { err: formatRes(split(e)), res: null };
     return { err: null, res: formatRes(split(e)) };
   });
+};
 
-module.exports = { parser };
+const getObject = function (array) {
+  const pairs = {};
+  for (let index = 0; index < array.length; index += 2) {
+    pairs[array[index]] = array[index + 1];
+  }
+  return pairs;
+};
+
+module.exports = { parser, getObject };

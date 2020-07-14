@@ -1,4 +1,4 @@
-const { parser } = require('./parser');
+const { parser, getObject } = require('./parser');
 
 class Client {
   constructor(socket) {
@@ -12,8 +12,8 @@ class Client {
     client.socket.on('data', (data) => {
       const parsedData = parser(data);
       parsedData.forEach(({ err, res }) => {
-        const callback = client.callbacks.shift();
-        callback(err, res);
+        const [callback, resFormatter] = client.callbacks.shift();
+        callback(err, resFormatter(res));
       });
     });
     return client;
@@ -25,79 +25,83 @@ class Client {
     });
   }
 
+  addCb(callback, formatter = (res) => res) {
+    this.callbacks.push([callback, formatter]);
+  }
+
   select(db, callback = console.log) {
     this.write(`select ${db}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   ping(value = '') {
     this.write(`ping ${value}`);
-    this.callbacks.push(this.print);
+    this.addCb(this.print);
   }
 
   set(key, value, callback) {
     this.write(`set ${key} ${value}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   get(key, callback) {
     this.write(`get ${key}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   keys(pattern, callback) {
     this.write(`keys ${pattern}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   incr(key, callback) {
     this.write(`incr ${key}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   lpush(key, value, callback) {
     this.write(`lpush ${key} ${value}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   lpop(key, callback) {
     this.write(`lpop ${key}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   lrange(key, start, end, callback) {
     this.write(`lrange ${key} ${start} ${end}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   rpush(key, value, callback) {
     this.write(`rpush ${key} ${value}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   rpop(key, callback) {
     this.write(`rpop ${key}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   rpoplpush(src, dest, callback) {
     this.write(`rpoplpush ${src} ${dest}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   hset(key, field, value, callback) {
     this.write(`hset ${key} ${field} ${value}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   hget(key, field, callback) {
     this.write(`hget ${key} ${field}`);
-    this.callbacks.push(callback);
+    this.addCb(callback);
   }
 
   hgetall(key, callback) {
     this.write(`hgetall ${key}`);
-    this.callbacks.push(callback);
+    this.addCb(callback, getObject);
   }
 
   print(err, res) {
