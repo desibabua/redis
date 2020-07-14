@@ -5,6 +5,8 @@ const main = function () {
   client.ping(console.log);
   client.set('hello', 'world', console.log);
   client.get('hello', console.log);
+  client.incr('a', console.log);
+  client.incr('b', console.log);
   client.end();
 };
 

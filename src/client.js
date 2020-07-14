@@ -1,6 +1,4 @@
-const parse = function (res) {
-  return res.split('\r\n');
-};
+const {parser} = require('./parser');
 
 class Client {
   constructor(socket) {
@@ -12,9 +10,9 @@ class Client {
     const client = new Client(socket);
     client.select(db);
     client.socket.on('data', (data) => {
-      const parsedData = parse(data);
+      const parsedData = parser(data);
       parsedData.forEach((res) => {
-        const callback = client.callbacks.shift() || console.log;
+        const callback = client.callbacks.shift();
         callback(res);
       });
     });
@@ -44,6 +42,13 @@ class Client {
 
   ping(callback) {
     this.socket.write(`ping\r\n`, (err) => {
+      err && console.log(err);
+    });
+    this.callbacks.push(callback);
+  }
+
+  incr(key, callback) {
+    this.socket.write(`incr ${key}\r\n`, (err) => {
       err && console.log(err);
     });
     this.callbacks.push(callback);
