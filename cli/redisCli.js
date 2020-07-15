@@ -1,6 +1,5 @@
 const Vorpal = require('vorpal');
 const redis = require('../src/redis');
-const { delimiter } = require('path');
 const client = redis.createClient({ db: 1 });
 
 const promised = function (command, args) {
@@ -90,35 +89,35 @@ const brpop = function (vorpal) {
   });
 };
 
-// const hset = function (vorpal) {
-//   vorpal.command('hset <key> <field> <value>').action(function (args, cb) {
-//     promised(client.hset, [args.key, args.field, args.value]).then(cb).catch(cb);
-//   });
-// }
+const hset = function (vorpal) {
+  vorpal.command('hset <key> <field> <value>').action(function (args, cb) {
+    promised(client.hset, [args.key, args.field, args.value]).then(cb).catch(cb);
+  });
+}
 
-// const hget = function (vorpal) {
-//   vorpal.command('hget <key> <field>').action(function (args, cb) {
-//     promised(client.hget, [args.key, args.field]).then(cb).catch(cb);
-//   });
-// }
+const hget = function (vorpal) {
+  vorpal.command('hget <key> <field>').action(function (args, cb) {
+    promised(client.hget, [args.key, args.field]).then(cb).catch(cb);
+  });
+}
 
-// const hmset = function (vorpal) {
-//   vorpal.command('hmset <key> [ filedValues...]').action(function (args, cb) {
-//     promised(client.hmset, [args.key, args.fieldValues]).then(cb).catch(cb);
-//   });
-// }
+const hmset = function (vorpal) {
+  vorpal.command('hmset <key> [fieldValues...]').action(function (args, cb) {
+    promised(client.hmset, [args.key, args.fieldValues]).then(cb).catch(cb);
+  });
+}
 
-// const hmget = function (vorpal) {
-//   vorpal.command('hmget <key> [ fields...]').action(function (args, cb) {
-//     promised(client.hmget, [args.key, args.fields]).then(cb).catch(cb);
-//   });
-// };
+const hmget = function (vorpal) {
+  vorpal.command('hmget <key> [fields...]').action(function (args, cb) {
+    promised(client.hmget, [args.key, args.fields]).then(formatArray).then(cb).catch(cb);
+  });
+};
 
-// const hgetall = function (vorpal) {
-//   vorpal.command('hgetall <key>').action(function (args, cb) {
-//     promised(client.hgetall, [args.key]).then(formatArray).then(cb).catch(cb);
-//   });
-// };
+const hgetall = function (vorpal) {
+  vorpal.command('hgetall <key>').action(function (args, cb) {
+    promised(client.hgetall, [args.key]).then(cb).catch(cb);
+  });
+};
 
 const flushdb = function (vorpal) {
   vorpal.command('flushdb').action(function (args, cb) {
@@ -148,11 +147,11 @@ const startCli = function () {
   vorpal.use(rpoplpush);
   vorpal.use(brpop);
 
-  // vorpal.use(hset);
-  // vorpal.use(hget);
-  // vorpal.use(hmset);
-  // vorpal.use(hmget);
-  // vorpal.use(hgetall);
+  vorpal.use(hset);
+  vorpal.use(hget);
+  vorpal.use(hmset);
+  vorpal.use(hmget);
+  vorpal.use(hgetall);
 
   vorpal.use(flushdb);
   vorpal.use(flushall);

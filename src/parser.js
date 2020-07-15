@@ -1,18 +1,18 @@
 const split = (str) => str.split('\r\n');
 
-const getExtraCount = function (str) {
+const getCount = function (str) {
   const counter = { '*': Number(str.slice(1)), $: 1 };
   return counter[str[0]] || 0;
 };
 
-const parseRes = function (res) {
+const groupRelatedRes = function (res) {
   const splittedRes = res.match(/.*\r\n/g);
   const parsedRes = [];
   let count = 0;
   let temp = '';
-  for (let i = 0; i < splittedRes.length; i++) {
-    temp += splittedRes[i];
-    count += getExtraCount(splittedRes[i]);
+  for (let index = 0; index < splittedRes.length; index++) {
+    temp += splittedRes[index];
+    count += getCount(splittedRes[index]);
     if (count === 0) {
       parsedRes.push(temp);
       temp = '';
@@ -40,14 +40,16 @@ const formatRes = function (resArr) {
   }
 };
 
-const parser = function (res) {
-  return parseRes(res).map((e) => {
-    if (split(e)[0][0] == '-') return { err: formatRes(split(e)), res: null };
-    return { err: null, res: formatRes(split(e)) };
+const getResponses = function (rawRes) {
+  return groupRelatedRes(rawRes).map((relatedRes) => {
+    if (split(relatedRes)[0][0] == '-') {
+      return { err: formatRes(split(relatedRes)), res: null };
+    }
+    return { err: null, res: formatRes(split(relatedRes)) };
   });
 };
 
-const getObject = function (array) {
+const formatAsObject = function (array) {
   const pairs = {};
   for (let index = 0; index < array.length; index += 2) {
     pairs[array[index]] = array[index + 1];
@@ -55,4 +57,4 @@ const getObject = function (array) {
   return pairs;
 };
 
-module.exports = { parser, getObject };
+module.exports = { getResponses, formatAsObject };
