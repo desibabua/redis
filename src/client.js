@@ -34,7 +34,7 @@ class Client {
     this.execute(`select ${db}`, callback);
   }
 
-  ping(value = '',callback = this.print) {
+  ping(value = '', callback = this.print) {
     this.execute(`ping ${value}`, callback);
   }
 
@@ -82,7 +82,7 @@ class Client {
     this.execute(`rpoplpush ${src} ${dest}`, callback);
   }
 
-  brpop(key,timeout, callback) {
+  brpop(key, timeout, callback) {
     this.execute(`brpop ${key} ${timeout}`, callback);
   }
 
@@ -119,7 +119,8 @@ class Client {
   }
 
   end(callback) {
-    if (this.callbacks.length) return setTimeout(this.end.bind(this), 50);
+    if (this.callbacks.length)
+      return setTimeout(this.end.bind(this), 50, callback);
     this.socket.end(callback);
   }
 }

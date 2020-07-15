@@ -16,31 +16,30 @@ const main = function () {
 
   client.lrange('numbers', '0', '10', client.print);
 
-  // client.rpoplpush('numbers', 'list2', client.print);
-  // client.lrange('numbers', '0', '10', client.print);
-  // client.lrange('list2', '0', '10', client.print);
+  client.rpoplpush('numbers', 'list2', client.print);
+  client.lrange('numbers', '0', '10', client.print);
+  client.lrange('list2', '0', '10', client.print);
 
-  // client.rpop('numbers', client.print);
-  // client.lrange('numbers', '0', '10', client.print);
+  client.rpop('numbers', client.print);
+  client.lrange('numbers', '0', '10', client.print);
 
-  // client.keys('*num*', client.print);
+  client.keys('*num*', client.print);
 
-  // client.hset('animals', 'pet', 'dog', client.print);
-  // client.hget('animals', 'pet', client.print);
+  client.hset('animals', 'pet', 'dog', client.print);
+  client.hget('animals', 'pet', client.print);
 
-  // const animals = ['pet', 'dog', 'wild', 'tiger', 'reptiles', 'lizard'];
-  // client.hmset('animals', animals, client.print);
-  // client.hmget('animals', ['pet','wild','reptiles'], client.print);
-  // client.hgetall('animals', client.print);
+  const animals = ['pet', 'dog', 'wild', 'tiger', 'reptiles', 'lizard'];
+  client.hmset('animals', animals, client.print);
+  client.hmget('animals', ['pet','wild','reptiles'], client.print);
+  client.hgetall('animals', client.print);
 
-  // client.del('animals', client.print);
+  client.del('animals', client.print);
 
-  // client.keys('*', client.print);
-  // client.brpop('numbers', 10, client.print);
-  // client.brpop('numbers', 10, client.print);
+  client.keys('*', client.print);
+  client.brpop('numbers', 10, client.print);
 
   client.flushdb(client.print);
-  client.end((err, res) => console.log(`connection closed...with${err || res}`));
+  client.end(() => console.log('connection closed...'));
 };
 
 main();
